@@ -109,7 +109,7 @@ Node* insertElement(Node *node,int value){
         return node;
     }
 
-    if (value > node->value){
+    if (value >= node->value){
         node->right = insertElement(node->right, value);
     }
     else{
@@ -126,11 +126,10 @@ Node* insertElement(Node *node,int value){
 }
 
 int main() {
-    Node tree;
-    tree = *createNode(&tree, 5);
-    int elements[] = {8,6,10,5,7,9, 11};
-    for (int i = 0; i < 7; i++){
-        tree = *insertElement(&tree, elements[i]);
+    Node *tree = NULL;
+    int elements[] = {5,8,6,10,5,7,9, 11,4,1,33,21};
+    for (int i = 0; i <= 11; i++){
+        tree = insertElement(tree, elements[i]);
     }
     return 0;
 }
