@@ -2,6 +2,7 @@
 #include <malloc.h>
 
 
+
 typedef struct node{
   int value;
   struct node *left, *right;
@@ -125,11 +126,60 @@ Node* insertElement(Node *node,int value){
     return node;
 }
 
+Node* removeNode(Node *root, int key){
+    if (root == NULL){
+        printf("Value not found");
+        return NULL;
+    }
+    if (root->value == key){
+        if (root->left == NULL && root->right == NULL){
+            free(root);
+            printf("Element removed: %d\n", key);
+            return NULL;
+        }
+        if (root->left != NULL && root->right != NULL){
+            Node *aux = root->left;
+            while (aux->right != NULL){
+                aux = aux->right;
+            }
+            root->value = aux->value;
+            aux->value = key;
+            printf("Element swapped:  %d !\n", key);
+            root->left = removeNode(root->left, key);
+            return root;
+        } else{
+            Node* aux;
+            if(root->left != NULL){
+                aux = root->left;
+            } else{
+                aux = root->right;
+            }
+            free(root);
+            printf("Element with 1 child removed: %d\n", key);
+            return aux;
+        }
+    }else{
+        if (key > root->value){
+            root->right = removeNode(root->right, key);
+        } else{
+            root->left = removeNode(root->left, key);
+        }
+    }
+
+    root->height = greater(height(root->left), height(root->right)) + 1;
+    root = balance(root);
+    return root;
+}
+
 int main() {
     Node *tree = NULL;
-    int elements[] = {5,8,6,10,5,7,9, 11,4,1,33,21};
-    for (int i = 0; i <= 11; i++){
+    int elements[] = {5,8,6,10,5,7,9, 11,4,1,33,21,22};
+    for (int i = 0; i <= 12; i++){
         tree = insertElement(tree, elements[i]);
+    }
+
+    for (int i=0; i<=12; i++){
+        tree = removeNode(tree ,elements[i]);
     }
     return 0;
 }
