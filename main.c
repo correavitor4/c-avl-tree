@@ -171,6 +171,20 @@ Node* removeNode(Node *root, int key){
     return root;
 }
 
+void printTree(Node *root, int level){
+    int i;
+    if(root != NULL){
+        printTree(root->right, level + 1);
+        printf("\n\n");
+        for (i = 0; i < level; i++){
+            printf("\t");
+        }
+
+        printf("%d", root->value);
+        printTree(root->left, level + 1);
+    }
+}
+
 int main() {
     Node *tree = NULL;
     int elements[] = {5,8,6,10,5,7,9, 11,4,1,33,21,22};
@@ -178,6 +192,7 @@ int main() {
         tree = insertElement(tree, elements[i]);
     }
 
+    printTree(tree, 1);
     for (int i=0; i<=12; i++){
         tree = removeNode(tree ,elements[i]);
     }
